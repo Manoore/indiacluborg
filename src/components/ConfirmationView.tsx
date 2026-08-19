@@ -7,6 +7,12 @@ import confetti from "canvas-confetti";
 import { Heart, Footprints, Copy, Check } from "lucide-react";
 import { Participant } from "@/lib/types";
 
+const TYPE_COLOR: Record<Participant["participationType"], string> = {
+  walking: "#14b8a6",
+  pledging: "#f59e0b",
+  both: "#c026d3",
+};
+
 export default function ConfirmationView({
   participant,
   communityName,
@@ -19,11 +25,12 @@ export default function ConfirmationView({
   campaignDate: string;
 }) {
   const [copied, setCopied] = useState(false);
+  const heartColor = TYPE_COLOR[participant.participationType];
 
   useEffect(() => {
     const duration = 1500;
     const end = Date.now() + duration;
-    const colors = ["#ff9933", "#ffffff", "#0f9d58", "#e11d48"];
+    const colors = [heartColor, "#e11d48", "#ffffff"];
     (function frame() {
       confetti({ particleCount: 3, angle: 60, spread: 60, origin: { x: 0 }, colors });
       confetti({ particleCount: 3, angle: 120, spread: 60, origin: { x: 1 }, colors });
@@ -49,7 +56,7 @@ export default function ConfirmationView({
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 200, damping: 14 }}
       >
-        <Heart size={56} fill="#e11d48" color="#e11d48" className="mx-auto drop-shadow-md" />
+        <Heart size={56} fill={heartColor} color={heartColor} className="mx-auto drop-shadow-md" />
       </motion.div>
       <h1 className="mt-4 font-display text-3xl font-extrabold text-navy">Your Heart Has Been Added!</h1>
       <p className="mt-2 text-foreground/60">
@@ -62,7 +69,7 @@ export default function ConfirmationView({
         transition={{ delay: 0.2 }}
         className="mx-auto mt-8 w-fit rounded-3xl border border-heart/10 bg-white px-10 py-6 shadow-lg"
       >
-        <Heart size={40} fill="#e11d48" color="#e11d48" className="mx-auto animate-float" />
+        <Heart size={40} fill={heartColor} color={heartColor} className="mx-auto animate-float" />
         <p className="mt-2 font-display text-lg font-bold text-navy">{participant.displayName}</p>
         <p className="text-sm font-medium text-navy/60">{communityName}</p>
       </motion.div>
@@ -70,12 +77,12 @@ export default function ConfirmationView({
       <div className="mx-auto mt-6 flex w-fit flex-col gap-2 rounded-2xl bg-cream p-4 text-left text-sm">
         <p className="font-semibold text-navy">Your commitment</p>
         {(participant.participationType === "walking" || participant.participationType === "both") && (
-          <p className="flex items-center gap-2 text-navy">
+          <p className="flex items-center gap-2 text-walk-deep">
             <Footprints size={16} /> Walking
           </p>
         )}
         {(participant.participationType === "pledging" || participant.participationType === "both") && (
-          <p className="flex items-center gap-2 text-heart-deep">
+          <p className="flex items-center gap-2 text-pledge-deep">
             <Heart size={16} /> ${participant.pledgeAmount} pledge
           </p>
         )}

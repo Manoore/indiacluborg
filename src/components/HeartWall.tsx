@@ -54,6 +54,18 @@ export default function HeartWall({
         </div>
       )}
 
+      <div className="mb-4 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-foreground/60">
+        <span className="flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-walk" /> Walking
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-pledge" /> Pledging
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-both" /> Walking + Pledging
+        </span>
+      </div>
+
       {filtered.length === 0 ? (
         <p className="py-16 text-center text-foreground/50">No hearts here yet — be the first!</p>
       ) : (

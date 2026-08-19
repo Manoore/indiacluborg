@@ -3,15 +3,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Footprints } from "lucide-react";
-import { Participant } from "@/lib/types";
+import { Participant, ParticipationType } from "@/lib/types";
 
-const PALETTE = ["#e11d48", "#be123c", "#fb7185", "#9f1239"];
-
-function hashColor(id: string) {
-  let h = 0;
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % PALETTE.length;
-  return PALETTE[h];
-}
+const TYPE_COLOR: Record<ParticipationType, { fill: string; deep: string; label: string }> = {
+  walking: { fill: "#14b8a6", deep: "#0f766e", label: "Walking" },
+  pledging: { fill: "#f59e0b", deep: "#b45309", label: "Pledging" },
+  both: { fill: "#c026d3", deep: "#86198f", label: "Walking + Pledging" },
+};
 
 export default function HeartNode({
   participant,
@@ -23,7 +21,7 @@ export default function HeartNode({
   index: number;
 }) {
   const [open, setOpen] = useState(false);
-  const color = hashColor(participant.id);
+  const { fill: color, deep: colorDeep } = TYPE_COLOR[participant.participationType];
   const label =
     participant.displayNameMode === "anonymous"
       ? "A friend"
@@ -63,21 +61,27 @@ export default function HeartNode({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 8, scale: 0.9 }}
               transition={{ duration: 0.15 }}
-              className="absolute left-1/2 top-full z-40 mt-2 w-52 -translate-x-1/2 rounded-xl border border-heart/10 bg-white p-3 text-left shadow-xl"
+              className="absolute left-1/2 top-full z-40 mt-2 w-52 -translate-x-1/2 rounded-xl border border-black/5 bg-white p-3 text-left shadow-xl"
             >
               <div className="flex items-center gap-2">
                 <Heart size={16} fill={color} color={color} />
                 <span className="font-semibold text-navy">{label}</span>
               </div>
               <div className="mt-1 text-xs font-medium text-navy/60">{communityName}</div>
-              <div className="mt-2 flex items-center gap-1 text-xs text-foreground/70">
+              <div className="mt-2 flex items-center gap-1 text-xs" style={{ color: colorDeep }}>
                 {(participant.participationType === "walking" || participant.participationType === "both") && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-navy/8 px-2 py-0.5 text-navy">
+                  <span
+                    className="inline-flex items-center gap-1 rounded-full px-2 py-0.5"
+                    style={{ backgroundColor: `${TYPE_COLOR.walking.fill}1a`, color: TYPE_COLOR.walking.deep }}
+                  >
                     <Footprints size={12} /> Walking
                   </span>
                 )}
                 {(participant.participationType === "pledging" || participant.participationType === "both") && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-heart/10 px-2 py-0.5 text-heart-deep">
+                  <span
+                    className="inline-flex items-center gap-1 rounded-full px-2 py-0.5"
+                    style={{ backgroundColor: `${TYPE_COLOR.pledging.fill}1a`, color: TYPE_COLOR.pledging.deep }}
+                  >
                     <Heart size={12} /> Pledging
                   </span>
                 )}

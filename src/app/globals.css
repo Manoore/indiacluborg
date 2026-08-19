@@ -8,6 +8,13 @@
   --heart-deep: #be123c;
   --heart-soft: #fda4af;
   --cream: #fff8f0;
+  /* Participation-type accents: walking, pledging, both */
+  --walk: #14b8a6;
+  --walk-deep: #0f766e;
+  --pledge: #f59e0b;
+  --pledge-deep: #b45309;
+  --both: #c026d3;
+  --both-deep: #86198f;
 }
 
 @theme inline {
@@ -18,6 +25,12 @@
   --color-heart-deep: var(--heart-deep);
   --color-heart-soft: var(--heart-soft);
   --color-cream: var(--cream);
+  --color-walk: var(--walk);
+  --color-walk-deep: var(--walk-deep);
+  --color-pledge: var(--pledge);
+  --color-pledge-deep: var(--pledge-deep);
+  --color-both: var(--both);
+  --color-both-deep: var(--both-deep);
   --font-sans: var(--font-poppins);
   --font-display: var(--font-poppins);
 }
@@ -73,11 +86,18 @@ body {
 }
 
 .hero-gradient {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--heart-deep) 55%, var(--heart) 100%);
+  background: linear-gradient(
+    120deg,
+    var(--walk-deep) 0%,
+    var(--heart-deep) 32%,
+    var(--heart) 55%,
+    var(--both-deep) 78%,
+    var(--pledge-deep) 100%
+  );
 }
 
 .text-gradient {
-  background: linear-gradient(90deg, var(--heart-deep), var(--heart));
+  background: linear-gradient(90deg, var(--walk-deep), var(--heart), var(--pledge-deep));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

@@ -90,8 +90,8 @@ export default function AdminDashboardClient({
           <div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <StatCard icon={Heart} label="Hearts" value={totals.hearts} color="text-heart" />
-              <StatCard icon={Footprints} label="Walkers" value={totals.walkers} color="text-navy" />
-              <StatCard icon={DollarSign} label="Pledged" value={totals.pledged} color="text-heart-deep" money />
+              <StatCard icon={Footprints} label="Walkers" value={totals.walkers} color="text-walk-deep" />
+              <StatCard icon={DollarSign} label="Pledged" value={totals.pledged} color="text-pledge-deep" money />
             </div>
 
             <div className="mt-8 rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
