@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight } from "lucide-react";
 import StatCounter from "./StatCounter";
@@ -26,11 +27,16 @@ export default function Hero({
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-4 flex items-center justify-center gap-3 text-4xl sm:text-5xl"
+          className="mx-auto mb-4 max-w-md overflow-hidden rounded-3xl shadow-2xl ring-4 ring-white/30 sm:max-w-lg"
         >
-          <span>🇮🇳</span>
-          <span className="text-2xl sm:text-3xl">🤝</span>
-          <span>🇺🇸</span>
+          <Image
+            src="/handshake.png"
+            alt="Handshake between the India and US flags"
+            width={1408}
+            height={768}
+            className="h-auto w-full"
+            priority
+          />
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
