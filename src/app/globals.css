@@ -3,28 +3,20 @@
 :root {
   --background: #fff8f0;
   --foreground: #1f1147;
-  --saffron: #ff9933;
-  --saffron-deep: #f5730a;
-  --india-green: #0f9d58;
-  --india-green-deep: #0b7a43;
   --navy: #1a1150;
   --heart: #e11d48;
   --heart-deep: #be123c;
-  --gold: #f4b942;
+  --heart-soft: #fda4af;
   --cream: #fff8f0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-saffron: var(--saffron);
-  --color-saffron-deep: var(--saffron-deep);
-  --color-india-green: var(--india-green);
-  --color-india-green-deep: var(--india-green-deep);
   --color-navy: var(--navy);
   --color-heart: var(--heart);
   --color-heart-deep: var(--heart-deep);
-  --color-gold: var(--gold);
+  --color-heart-soft: var(--heart-soft);
   --color-cream: var(--cream);
   --font-sans: var(--font-poppins);
   --font-display: var(--font-poppins);
@@ -81,18 +73,11 @@ body {
 }
 
 .hero-gradient {
-  background: linear-gradient(
-    135deg,
-    var(--saffron-deep) 0%,
-    var(--saffron) 24%,
-    var(--heart-deep) 52%,
-    var(--india-green) 80%,
-    var(--india-green-deep) 100%
-  );
+  background: linear-gradient(135deg, var(--navy) 0%, var(--heart-deep) 55%, var(--heart) 100%);
 }
 
 .text-gradient {
-  background: linear-gradient(90deg, var(--saffron-deep), var(--heart), var(--india-green-deep));
+  background: linear-gradient(90deg, var(--heart-deep), var(--heart));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

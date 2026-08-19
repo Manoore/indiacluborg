@@ -64,13 +64,13 @@ export default function ConfirmationView({
       >
         <Heart size={40} fill="#e11d48" color="#e11d48" className="mx-auto animate-float" />
         <p className="mt-2 font-display text-lg font-bold text-navy">{participant.displayName}</p>
-        <p className="text-sm font-medium text-saffron-deep">{communityName}</p>
+        <p className="text-sm font-medium text-navy/60">{communityName}</p>
       </motion.div>
 
       <div className="mx-auto mt-6 flex w-fit flex-col gap-2 rounded-2xl bg-cream p-4 text-left text-sm">
         <p className="font-semibold text-navy">Your commitment</p>
         {(participant.participationType === "walking" || participant.participationType === "both") && (
-          <p className="flex items-center gap-2 text-india-green-deep">
+          <p className="flex items-center gap-2 text-navy">
             <Footprints size={16} /> Walking
           </p>
         )}

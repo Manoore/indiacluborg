@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Footprints } from "lucide-react";
 import { Participant } from "@/lib/types";
 
-const PALETTE = ["#e11d48", "#ff9933", "#0f9d58", "#f4b942", "#be123c"];
+const PALETTE = ["#e11d48", "#be123c", "#fb7185", "#9f1239"];
 
 function hashColor(id: string) {
   let h = 0;
@@ -69,10 +69,10 @@ export default function HeartNode({
                 <Heart size={16} fill={color} color={color} />
                 <span className="font-semibold text-navy">{label}</span>
               </div>
-              <div className="mt-1 text-xs font-medium text-saffron-deep">{communityName}</div>
+              <div className="mt-1 text-xs font-medium text-navy/60">{communityName}</div>
               <div className="mt-2 flex items-center gap-1 text-xs text-foreground/70">
                 {(participant.participationType === "walking" || participant.participationType === "both") && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-india-green/10 px-2 py-0.5 text-india-green-deep">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-navy/8 px-2 py-0.5 text-navy">
                     <Footprints size={12} /> Walking
                   </span>
                 )}

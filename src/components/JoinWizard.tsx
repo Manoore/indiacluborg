@@ -89,7 +89,7 @@ export default function JoinWizard({ communities }: { communities: Community[] }
 
       <div className="mb-8 h-2 w-full overflow-hidden rounded-full bg-black/5">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-saffron to-heart"
+          className="h-full rounded-full bg-gradient-to-r from-heart-deep to-heart"
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.3 }}
         />
@@ -332,7 +332,7 @@ export default function JoinWizard({ communities }: { communities: Community[] }
           <div
             key={s}
             className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold transition ${
-              i < step ? "bg-india-green text-white" : i === step ? "bg-heart text-white" : "bg-black/5 text-foreground/30"
+              i < step ? "bg-heart-deep text-white" : i === step ? "bg-heart text-white" : "bg-black/5 text-foreground/30"
             }`}
           >
             {i < step ? <Check size={12} /> : i + 1}

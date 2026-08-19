@@ -17,7 +17,7 @@ export default function Leaderboard({ communityStats }: { communityStats: Commun
   return (
     <div id="communities" className="mx-auto max-w-4xl">
       <div className="mb-6 flex items-center justify-center gap-2">
-        <Trophy className="text-gold" />
+        <Trophy className="text-heart" />
         <h2 className="font-display text-2xl font-extrabold text-navy">Team India Community Challenge</h2>
       </div>
       <div className="grid gap-6 sm:grid-cols-3">
@@ -48,11 +48,11 @@ export default function Leaderboard({ communityStats }: { communityStats: Commun
                         <span
                           className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
                             i === 0
-                              ? "bg-gold text-white"
+                              ? "bg-heart text-white"
                               : i === 1
-                                ? "bg-navy/20 text-navy"
+                                ? "bg-heart/40 text-heart-deep"
                                 : i === 2
-                                  ? "bg-saffron/30 text-saffron-deep"
+                                  ? "bg-heart/20 text-heart-deep"
                                   : "bg-black/5 text-foreground/50"
                           }`}
                         >

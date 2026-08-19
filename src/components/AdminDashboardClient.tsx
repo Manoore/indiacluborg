@@ -90,8 +90,8 @@ export default function AdminDashboardClient({
           <div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <StatCard icon={Heart} label="Hearts" value={totals.hearts} color="text-heart" />
-              <StatCard icon={Footprints} label="Walkers" value={totals.walkers} color="text-india-green-deep" />
-              <StatCard icon={DollarSign} label="Pledged" value={totals.pledged} color="text-saffron-deep" money />
+              <StatCard icon={Footprints} label="Walkers" value={totals.walkers} color="text-navy" />
+              <StatCard icon={DollarSign} label="Pledged" value={totals.pledged} color="text-heart-deep" money />
             </div>
 
             <div className="mt-8 rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
@@ -176,7 +176,7 @@ export default function AdminDashboardClient({
                       <td className="px-4 py-2 text-foreground/70">{p.pledgeAmount ? `$${p.pledgeAmount}` : "—"}</td>
                       <td className="px-4 py-2 text-foreground/50">{new Date(p.createdAt).toLocaleDateString()}</td>
                       <td className="px-4 py-2">
-                        <span className="rounded-full bg-india-green/10 px-2 py-0.5 text-xs font-semibold text-india-green-deep">
+                        <span className="rounded-full bg-navy/8 px-2 py-0.5 text-xs font-semibold text-navy">
                           Active
                         </span>
                       </td>
@@ -211,7 +211,7 @@ export default function AdminDashboardClient({
                     <td className="px-4 py-2">{c.walkers}</td>
                     <td className="px-4 py-2">${c.pledged.toLocaleString()}</td>
                     <td className="px-4 py-2">
-                      <span className="rounded-full bg-india-green/10 px-2 py-0.5 text-xs font-semibold text-india-green-deep">
+                      <span className="rounded-full bg-navy/8 px-2 py-0.5 text-xs font-semibold text-navy">
                         Active
                       </span>
                     </td>
