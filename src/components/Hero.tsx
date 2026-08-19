@@ -81,7 +81,7 @@ export default function Hero({
             href="/join"
             className="animate-pulse-glow group flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-base font-bold text-heart shadow-xl transition hover:scale-105"
           >
-            <Heart fill="#8b1e28" color="#8b1e28" size={18} />
+            <Heart fill="#e11d48" color="#e11d48" size={18} />
             Add Your Heart
             <ArrowRight className="transition group-hover:translate-x-1" size={16} />
           </Link>

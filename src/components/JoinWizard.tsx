@@ -128,7 +128,7 @@ export default function JoinWizard({ communities }: { communities: Community[] }
                       <opt.icon
                         size={28}
                         className={participationType === opt.type ? "text-heart" : "text-navy/50"}
-                        fill={opt.type !== "walking" && participationType === opt.type ? "#8b1e28" : "none"}
+                        fill={opt.type !== "walking" && participationType === opt.type ? "#e11d48" : "none"}
                       />
                       <span className="text-sm font-bold text-navy">{opt.label}</span>
                       <span className="text-xs text-foreground/50">{opt.desc}</span>

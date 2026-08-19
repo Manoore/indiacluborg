@@ -3,12 +3,10 @@
 :root {
   --background: #fff8f0;
   --foreground: #1f1147;
-  /* Brand palette, sampled from the India Club of Greater Dayton / Team India logo */
-  --navy: #16224b;
-  --saffron: #f5871f;
-  --heart: #8b1e28;
-  --heart-deep: #6e1620;
-  --brand-green: #1e7b34;
+  --navy: #1a1150;
+  --heart: #e11d48;
+  --heart-deep: #be123c;
+  --heart-soft: #fda4af;
   --cream: #fff8f0;
   /* Participation-type accents: walking, pledging, both */
   --walk: #14b8a6;
@@ -23,10 +21,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-navy: var(--navy);
-  --color-saffron: var(--saffron);
   --color-heart: var(--heart);
   --color-heart-deep: var(--heart-deep);
-  --color-brand-green: var(--brand-green);
+  --color-heart-soft: var(--heart-soft);
   --color-cream: var(--cream);
   --color-walk: var(--walk);
   --color-walk-deep: var(--walk-deep);
@@ -60,10 +57,10 @@ body {
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(139, 30, 40, 0.35);
+    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.35);
   }
   50% {
-    box-shadow: 0 0 0 14px rgba(139, 30, 40, 0);
+    box-shadow: 0 0 0 14px rgba(225, 29, 72, 0);
   }
 }
 
@@ -89,11 +86,18 @@ body {
 }
 
 .hero-gradient {
-  background: linear-gradient(120deg, var(--navy) 0%, var(--heart-deep) 45%, var(--heart) 65%, var(--saffron) 100%);
+  background: linear-gradient(
+    120deg,
+    var(--walk-deep) 0%,
+    var(--heart-deep) 32%,
+    var(--heart) 55%,
+    var(--both-deep) 78%,
+    var(--pledge-deep) 100%
+  );
 }
 
 .text-gradient {
-  background: linear-gradient(90deg, var(--navy), var(--heart), var(--saffron));
+  background: linear-gradient(90deg, var(--walk-deep), var(--heart), var(--pledge-deep));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
