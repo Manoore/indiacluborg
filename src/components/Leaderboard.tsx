@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Footprints, DollarSign, Trophy } from "lucide-react";
-import { useData } from "@/lib/store";
+import { CommunityStats } from "@/lib/types";
 
 type Metric = "hearts" | "walkers" | "pledged";
 
@@ -13,9 +13,7 @@ const METRIC_META: Record<Metric, { label: string; icon: React.ElementType; form
   pledged: { label: "Most Pledged", icon: DollarSign, format: (n) => `$${n.toLocaleString()}` },
 };
 
-export default function Leaderboard() {
-  const { communityStats } = useData();
-
+export default function Leaderboard({ communityStats }: { communityStats: CommunityStats[] }) {
   return (
     <div id="communities" className="mx-auto max-w-4xl">
       <div className="mb-6 flex items-center justify-center gap-2">

@@ -2,28 +2,32 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { useData } from "@/lib/store";
 import HeartNode from "./HeartNode";
-import { ParticipationType } from "@/lib/types";
+import { Community, ParticipationType, Participant } from "@/lib/types";
 
-export default function HeartWall({ communityId }: { communityId?: string }) {
-  const { participants, communities } = useData();
-  const [community, setCommunity] = useState<string>(communityId ?? "all");
+export default function HeartWall({
+  participants,
+  communities,
+  hideFilters = false,
+}: {
+  participants: Participant[];
+  communities: Community[];
+  hideFilters?: boolean;
+}) {
+  const [community, setCommunity] = useState<string>("all");
   const [participation, setParticipation] = useState<"all" | ParticipationType>("all");
 
   const communityMap = useMemo(() => new Map(communities.map((c) => [c.id, c.name])), [communities]);
 
   const filtered = useMemo(() => {
     return participants
-      .filter((p) => p.heartVisible && p.approved)
       .filter((p) => community === "all" || p.communityId === community)
-      .filter((p) => participation === "all" || p.participationType === participation)
-      .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+      .filter((p) => participation === "all" || p.participationType === participation);
   }, [participants, community, participation]);
 
   return (
     <div id="wall">
-      {!communityId && (
+      {!hideFilters && (
         <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
           <select
             value={community}

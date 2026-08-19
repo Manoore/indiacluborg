@@ -1,6 +1,3 @@
-"use client";
-
-import { use } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Heart, Footprints, DollarSign } from "lucide-react";
@@ -8,15 +5,22 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeartWall from "@/components/HeartWall";
 import StatCounter from "@/components/StatCounter";
-import { useData } from "@/lib/store";
+import { getCampaign, getCommunities, getCommunity, getCommunityStats, getPublicParticipants } from "@/lib/data";
 
-export default function CommunityPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
-  const { communities, communityStats, campaign } = useData();
-  const community = communities.find((c) => c.id === slug);
+export const dynamic = "force-dynamic";
+
+export default async function CommunityPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const community = await getCommunity(slug);
+  if (!community) notFound();
+
+  const [communities, participants, communityStats, campaign] = await Promise.all([
+    getCommunities(),
+    getPublicParticipants(slug),
+    getCommunityStats(),
+    getCampaign(),
+  ]);
   const stats = communityStats.find((c) => c.communityId === slug);
-
-  if (!community) return notFound();
 
   return (
     <>
@@ -61,7 +65,7 @@ export default function CommunityPage({ params }: { params: Promise<{ slug: stri
 
         <section className="py-14">
           <div className="px-4">
-            <HeartWall communityId={community.id} />
+            <HeartWall participants={participants} communities={communities} hideFilters />
           </div>
         </section>
 

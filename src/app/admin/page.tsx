@@ -1,20 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Heart, Lock } from "lucide-react";
-import { adminLogin } from "@/lib/admin-auth";
+import { adminLoginAction } from "@/app/actions";
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    adminLogin();
-    router.push("/admin/dashboard");
+    setSubmitting(true);
+    setError(null);
+    try {
+      const result = await adminLoginAction(email, password);
+      if (result?.error) {
+        setError(result.error);
+        setSubmitting(false);
+      }
+      // On success adminLoginAction redirects — nothing else to do here.
+    } catch (err) {
+      if (err && typeof err === "object" && "digest" in err && String(err.digest).startsWith("NEXT_REDIRECT")) {
+        throw err;
+      }
+      setError("Sign-in isn't configured yet — set ADMIN_EMAIL / ADMIN_PASSWORD / ADMIN_SESSION_SECRET.");
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -43,7 +57,7 @@ export default function AdminLoginPage() {
             placeholder="admin@teamindia.org"
           />
         </label>
-        <label className="mb-6 block">
+        <label className="mb-4 block">
           <span className="mb-1 block text-xs font-semibold text-navy/70">Password</span>
           <input
             type="password"
@@ -54,15 +68,14 @@ export default function AdminLoginPage() {
             placeholder="••••••••"
           />
         </label>
+        {error && <p className="mb-4 text-sm font-medium text-heart-deep">{error}</p>}
         <button
           type="submit"
-          className="w-full rounded-full bg-heart py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-heart-deep"
+          disabled={submitting}
+          className="w-full rounded-full bg-heart py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-heart-deep disabled:opacity-50"
         >
-          Sign In
+          {submitting ? "Signing in..." : "Sign In"}
         </button>
-        <p className="mt-4 text-center text-[11px] text-foreground/40">
-          Demo mode — any email/password signs in. Will connect to Firebase Auth.
-        </p>
       </motion.form>
     </main>
   );

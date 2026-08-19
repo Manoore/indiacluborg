@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ParticipationType {
+  walking
+  pledging
+  both
+}
+
+enum DisplayNameMode {
+  first
+  full
+  anonymous
+}
+
+enum PaymentStatus {
+  pledged
+  paid
+  declined
+  cancelled
+  unknown
+}
+
+model Community {
+  id           String        @id
+  name         String
+  description  String?
+  active       Boolean       @default(true)
+  displayOrder Int           @default(0)
+  participants Participant[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Participant {
+  id               String            @id @default(cuid())
+  firstName        String
+  lastName         String
+  displayName      String
+  displayNameMode  DisplayNameMode   @default(first)
+  email            String
+  phone            String?
+  participationType ParticipationType
+  communityId      String
+  community        Community         @relation(fields: [communityId], references: [id])
+  pledgeAmount     Int               @default(0)
+  dedication       String?
+  heartVisible     Boolean           @default(true)
+  approved         Boolean           @default(true)
+  paymentStatus    PaymentStatus     @default(unknown)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([communityId])
+  @@index([createdAt])
+}
+
+model Campaign {
+  id                 String   @id
+  name               String
+  title              String
+  date               DateTime
+  teamName           String
+  tagline            String
+  registrationOpen   Boolean  @default(true)
+  donationUrl        String?
+}
