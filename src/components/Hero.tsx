@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight } from "lucide-react";
 import StatCounter from "./StatCounter";
+import TwinklingHearts from "./TwinklingHearts";
 import { Campaign } from "@/lib/types";
 
 export default function Hero({
@@ -22,22 +23,17 @@ export default function Hero({
   });
 
   return (
-    <section className="hero-gradient bg-gradient-animated relative overflow-hidden py-16 sm:py-24">
-      <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mx-auto mb-4 max-w-md overflow-hidden rounded-3xl shadow-2xl ring-4 ring-white/30 sm:max-w-lg"
-        >
-          <Image
-            src="/handshake.png"
-            alt="Handshake between the India and US flags"
-            width={1408}
-            height={768}
-            className="h-auto w-full"
-            priority
-          />
-        </motion.div>
+    <section className="relative overflow-hidden py-16 sm:py-24">
+      <Image
+        src="/handshake.png"
+        alt="Handshake between the India and US flags"
+        fill
+        priority
+        className="object-cover"
+      />
+      <div className="hero-gradient bg-gradient-animated absolute inset-0 opacity-50" />
+      <TwinklingHearts />
+      <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
