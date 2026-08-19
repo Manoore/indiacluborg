@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight } from "lucide-react";
 import StatCounter from "./StatCounter";
@@ -25,18 +24,12 @@ export default function Hero({
     <section className="hero-gradient bg-gradient-animated relative overflow-hidden py-16 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
         <motion.div
-          initial={{ opacity: 0, y: -10, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          className="mx-auto mb-4 w-fit rounded-full bg-white p-1.5 shadow-xl"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-4 flex items-center justify-center gap-3 text-4xl sm:text-5xl"
         >
-          <Image
-            src="/logo.jpg"
-            alt="India Club of Greater Dayton — Team India"
-            width={84}
-            height={84}
-            className="rounded-full"
-            priority
-          />
+          <span>🇮🇳</span>
+          <span>🇺🇸</span>
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
