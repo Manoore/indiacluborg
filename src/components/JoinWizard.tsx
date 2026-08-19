@@ -164,7 +164,7 @@ export default function JoinWizard({ communities }: { communities: Community[] }
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="input"
-                    placeholder="+1 555 123 4567"
+                    placeholder="555 123 4567"
                   />
                 </Field>
                 <Field label="Email (optional)">
