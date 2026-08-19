@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Lock } from "lucide-react";
+import { Lock, Home } from "lucide-react";
 import { adminLoginAction } from "@/app/actions";
 
 export default function AdminLoginPage() {
@@ -33,7 +34,13 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-1 items-center justify-center bg-navy px-4">
+    <main className="relative flex min-h-screen flex-1 items-center justify-center bg-navy px-4">
+      <Link
+        href="/"
+        className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-white/20 sm:left-6 sm:top-6"
+      >
+        <Home size={13} /> Back to Home
+      </Link>
       <motion.form
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}

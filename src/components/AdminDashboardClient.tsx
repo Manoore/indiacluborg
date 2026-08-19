@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
-import { Heart, Footprints, DollarSign, Download, LogOut, Users, Trophy, Plus, Pencil, Check, X, Trash2 } from "lucide-react";
+import { Heart, Footprints, DollarSign, Download, LogOut, Users, Trophy, Plus, Pencil, Check, X, Trash2, Home } from "lucide-react";
 import { adminLogoutAction, createCommunityAction, renameCommunityAction, deleteCommunityAction } from "@/app/actions";
 import { Campaign, Community, CommunityStats, Participant } from "@/lib/types";
 
@@ -110,12 +111,20 @@ export default function AdminDashboardClient({
             <Image src="/logo.jpg" alt="" width={24} height={24} className="rounded-full" />
             <span className="font-display text-sm font-bold">{campaign.title} — Admin</span>
           </div>
-          <button
-            onClick={() => adminLogoutAction()}
-            className="flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20"
-          >
-            <LogOut size={13} /> Sign Out
-          </button>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20"
+            >
+              <Home size={13} /> Home
+            </Link>
+            <button
+              onClick={() => adminLogoutAction()}
+              className="flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20"
+            >
+              <LogOut size={13} /> Sign Out
+            </button>
+          </div>
         </div>
         <div className="mx-auto flex max-w-6xl gap-1 px-4 pb-2 sm:px-6">
           {(

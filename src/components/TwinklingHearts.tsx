@@ -14,15 +14,27 @@ function seededRandom(seed: number) {
 }
 
 const rand = seededRandom(7);
-const HEARTS = Array.from({ length: 22 }).map((_, i) => ({
-  id: i,
+const SMALL_HEARTS = Array.from({ length: 16 }).map((_, i) => ({
+  id: `s${i}`,
   top: `${rand() * 100}%`,
   left: `${rand() * 100}%`,
   size: 8 + rand() * 14,
   duration: 1.8 + rand() * 2.2,
   delay: rand() * 4,
   repeatDelay: 1 + rand() * 2,
+  maxOpacity: 0.9,
 }));
+const BIG_HEARTS = Array.from({ length: 7 }).map((_, i) => ({
+  id: `b${i}`,
+  top: `${rand() * 100}%`,
+  left: `${rand() * 100}%`,
+  size: 28 + rand() * 26,
+  duration: 2.6 + rand() * 2.4,
+  delay: rand() * 5,
+  repeatDelay: 1.5 + rand() * 2.5,
+  maxOpacity: 0.45,
+}));
+const HEARTS = [...SMALL_HEARTS, ...BIG_HEARTS];
 
 export default function TwinklingHearts() {
   return (
@@ -33,7 +45,7 @@ export default function TwinklingHearts() {
           className="absolute"
           style={{ top: h.top, left: h.left }}
           initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: [0, 1, 0], scale: [0, 1, 0] }}
+          animate={{ opacity: [0, h.maxOpacity, 0], scale: [0, 1, 0] }}
           transition={{
             duration: h.duration,
             delay: h.delay,
