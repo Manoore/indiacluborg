@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { Heart, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 import { adminLoginAction } from "@/app/actions";
 
 export default function AdminLoginPage() {
@@ -40,7 +41,7 @@ export default function AdminLoginPage() {
         className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-2xl"
       >
         <div className="mb-6 text-center">
-          <Heart className="mx-auto mb-2" size={32} fill="#e11d48" color="#e11d48" />
+          <Image src="/logo.jpg" alt="" width={56} height={56} className="mx-auto mb-2 rounded-full" />
           <h1 className="font-display text-xl font-extrabold text-navy">Team India Heart Walk</h1>
           <p className="mt-1 flex items-center justify-center gap-1 text-xs font-semibold text-foreground/50">
             <Lock size={12} /> Administrator Login

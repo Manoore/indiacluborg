@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight } from "lucide-react";
 import StatCounter from "./StatCounter";
@@ -24,11 +25,18 @@ export default function Hero({
     <section className="hero-gradient bg-gradient-animated relative overflow-hidden py-16 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-4 text-4xl sm:text-5xl"
+          initial={{ opacity: 0, y: -10, scale: 0.8 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          className="mx-auto mb-4 w-fit rounded-full bg-white p-1.5 shadow-xl"
         >
-          🇮🇳
+          <Image
+            src="/logo.jpg"
+            alt="India Club of Greater Dayton — Team India"
+            width={84}
+            height={84}
+            className="rounded-full"
+            priority
+          />
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
@@ -73,7 +81,7 @@ export default function Hero({
             href="/join"
             className="animate-pulse-glow group flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-base font-bold text-heart shadow-xl transition hover:scale-105"
           >
-            <Heart fill="#e11d48" color="#e11d48" size={18} />
+            <Heart fill="#8b1e28" color="#8b1e28" size={18} />
             Add Your Heart
             <ArrowRight className="transition group-hover:translate-x-1" size={16} />
           </Link>

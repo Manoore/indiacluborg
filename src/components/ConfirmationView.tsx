@@ -30,7 +30,7 @@ export default function ConfirmationView({
   useEffect(() => {
     const duration = 1500;
     const end = Date.now() + duration;
-    const colors = [heartColor, "#e11d48", "#ffffff"];
+    const colors = [heartColor, "#8b1e28", "#ffffff"];
     (function frame() {
       confetti({ particleCount: 3, angle: 60, spread: 60, origin: { x: 0 }, colors });
       confetti({ particleCount: 3, angle: 120, spread: 60, origin: { x: 1 }, colors });

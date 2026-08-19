@@ -1,14 +1,17 @@
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import Image from "next/image";
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl">🇮🇳</span>
-          <span className="font-display text-lg font-extrabold tracking-tight text-navy">
-            Team India <Heart className="mb-1 inline" size={16} fill="#e11d48" color="#e11d48" /> Heart Wall
+        <Link href="/" className="flex items-center gap-2.5">
+          <Image src="/logo.jpg" alt="India Club of Greater Dayton — Team India" width={40} height={40} className="rounded-full" priority />
+          <span className="font-display text-base font-extrabold leading-tight tracking-tight text-navy sm:text-lg">
+            Team India
+            <span className="block text-[10px] font-semibold uppercase tracking-wide text-foreground/50 sm:text-xs">
+              Heart Wall
+            </span>
           </span>
         </Link>
         <nav className="flex items-center gap-3 sm:gap-5">

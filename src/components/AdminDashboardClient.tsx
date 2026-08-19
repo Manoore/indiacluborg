@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Heart, Footprints, DollarSign, Download, LogOut, Users, Trophy, Plus, Pencil, Check, X } from "lucide-react";
 import { adminLogoutAction, createCommunityAction, renameCommunityAction } from "@/app/actions";
 import { Campaign, Community, CommunityStats, Participant } from "@/lib/types";
@@ -91,7 +92,7 @@ export default function AdminDashboardClient({
       <header className="sticky top-0 z-40 border-b border-black/5 bg-navy">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2 text-white">
-            <Heart size={18} fill="#e11d48" color="#e11d48" />
+            <Image src="/logo.jpg" alt="" width={24} height={24} className="rounded-full" />
             <span className="font-display text-sm font-bold">{campaign.title} — Admin</span>
           </div>
           <button
