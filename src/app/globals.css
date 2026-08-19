@@ -81,7 +81,14 @@ body {
 }
 
 .hero-gradient {
-  background: linear-gradient(120deg, var(--saffron) 0%, var(--gold) 28%, #ffffff 50%, var(--india-green) 78%, var(--india-green-deep) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--saffron-deep) 0%,
+    var(--saffron) 24%,
+    var(--heart-deep) 52%,
+    var(--india-green) 80%,
+    var(--india-green-deep) 100%
+  );
 }
 
 .text-gradient {
