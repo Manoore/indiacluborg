@@ -18,8 +18,8 @@ export interface Participant {
   lastName: string;
   displayName: string;
   displayNameMode: DisplayNameMode;
-  email: string;
-  phone?: string;
+  email?: string;
+  phone: string;
   participationType: ParticipationType;
   communityId: string;
   pledgeAmount: number;

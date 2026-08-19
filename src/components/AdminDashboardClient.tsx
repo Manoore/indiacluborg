@@ -1,8 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Heart, Footprints, DollarSign, Download, LogOut, Users, Trophy } from "lucide-react";
-import { adminLogoutAction } from "@/app/actions";
+import { useRouter } from "next/navigation";
+import { Heart, Footprints, DollarSign, Download, LogOut, Users, Trophy, Plus, Pencil, Check, X } from "lucide-react";
+import { adminLogoutAction, createCommunityAction, renameCommunityAction } from "@/app/actions";
 import { Campaign, Community, CommunityStats, Participant } from "@/lib/types";
 
 type Tab = "overview" | "participants" | "communities";
@@ -20,8 +21,44 @@ export default function AdminDashboardClient({
   totals: { hearts: number; walkers: number; pledged: number };
   campaign: Campaign;
 }) {
+  const router = useRouter();
   const [tab, setTab] = useState<Tab>("overview");
   const communityMap = useMemo(() => new Map(communities.map((c) => [c.id, c.name])), [communities]);
+
+  const [newCommunityName, setNewCommunityName] = useState("");
+  const [addingCommunity, setAddingCommunity] = useState(false);
+  const [addCommunityError, setAddCommunityError] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState("");
+  const [savingEdit, setSavingEdit] = useState(false);
+
+  async function handleAddCommunity() {
+    if (!newCommunityName.trim()) return;
+    setAddingCommunity(true);
+    setAddCommunityError(null);
+    const result = await createCommunityAction(newCommunityName);
+    setAddingCommunity(false);
+    if (result?.error) {
+      setAddCommunityError(result.error);
+      return;
+    }
+    setNewCommunityName("");
+    router.refresh();
+  }
+
+  function startEdit(c: CommunityStats) {
+    setEditingId(c.communityId);
+    setEditingName(c.communityName);
+  }
+
+  async function saveEdit(id: string) {
+    if (!editingName.trim()) return;
+    setSavingEdit(true);
+    await renameCommunityAction(id, editingName);
+    setSavingEdit(false);
+    setEditingId(null);
+    router.refresh();
+  }
 
   const walkingOnly = participants.filter((p) => p.participationType === "walking").length;
   const pledgingOnly = participants.filter((p) => p.participationType === "pledging").length;
@@ -31,8 +68,8 @@ export default function AdminDashboardClient({
     const header = ["Name", "Email", "Phone", "Community", "Participation", "Pledge", "Status", "Date"];
     const rows = participants.map((p) => [
       `${p.firstName} ${p.lastName}`,
-      p.email,
-      p.phone ?? "",
+      p.email ?? "",
+      p.phone,
       communityMap.get(p.communityId) ?? "",
       p.participationType,
       p.pledgeAmount ? `$${p.pledgeAmount}` : "",
@@ -189,36 +226,98 @@ export default function AdminDashboardClient({
         )}
 
         {tab === "communities" && (
-          <div className="rounded-2xl border border-black/5 bg-white shadow-sm">
-            <div className="border-b border-black/5 p-4">
-              <h3 className="text-sm font-bold text-navy">Communities</h3>
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm">
+              <h3 className="mb-3 text-sm font-bold text-navy">Add a community</h3>
+              <div className="flex flex-wrap items-center gap-2">
+                <input
+                  value={newCommunityName}
+                  onChange={(e) => setNewCommunityName(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleAddCommunity()}
+                  placeholder="e.g. Sindhi Community"
+                  className="input max-w-xs"
+                />
+                <button
+                  onClick={handleAddCommunity}
+                  disabled={addingCommunity || !newCommunityName.trim()}
+                  className="flex items-center gap-1.5 rounded-full bg-heart px-4 py-2 text-xs font-semibold text-white transition hover:bg-heart-deep disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <Plus size={14} /> {addingCommunity ? "Adding..." : "Add Community"}
+                </button>
+              </div>
+              {addCommunityError && <p className="mt-2 text-xs font-medium text-heart-deep">{addCommunityError}</p>}
             </div>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-black/5 text-left text-xs uppercase text-foreground/40">
-                  <th className="px-4 py-2">Community</th>
-                  <th className="px-4 py-2">Hearts</th>
-                  <th className="px-4 py-2">Walkers</th>
-                  <th className="px-4 py-2">Pledged</th>
-                  <th className="px-4 py-2">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {communityStats.map((c) => (
-                  <tr key={c.communityId} className="border-b border-black/5">
-                    <td className="px-4 py-2 font-medium text-navy">{c.communityName}</td>
-                    <td className="px-4 py-2">{c.hearts}</td>
-                    <td className="px-4 py-2">{c.walkers}</td>
-                    <td className="px-4 py-2">${c.pledged.toLocaleString()}</td>
-                    <td className="px-4 py-2">
-                      <span className="rounded-full bg-navy/8 px-2 py-0.5 text-xs font-semibold text-navy">
-                        Active
-                      </span>
-                    </td>
+
+            <div className="rounded-2xl border border-black/5 bg-white shadow-sm">
+              <div className="border-b border-black/5 p-4">
+                <h3 className="text-sm font-bold text-navy">Communities</h3>
+                <p className="mt-0.5 text-xs text-foreground/50">
+                  Click the pencil to rename — useful for correcting a custom name someone typed under &ldquo;Other&rdquo;.
+                </p>
+              </div>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-black/5 text-left text-xs uppercase text-foreground/40">
+                    <th className="px-4 py-2">Community</th>
+                    <th className="px-4 py-2">Hearts</th>
+                    <th className="px-4 py-2">Walkers</th>
+                    <th className="px-4 py-2">Pledged</th>
+                    <th className="px-4 py-2">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {communityStats.map((c) => (
+                    <tr key={c.communityId} className="border-b border-black/5">
+                      <td className="px-4 py-2 font-medium text-navy">
+                        {editingId === c.communityId ? (
+                          <div className="flex items-center gap-1.5">
+                            <input
+                              autoFocus
+                              value={editingName}
+                              onChange={(e) => setEditingName(e.target.value)}
+                              onKeyDown={(e) => e.key === "Enter" && saveEdit(c.communityId)}
+                              className="input py-1"
+                            />
+                            <button
+                              onClick={() => saveEdit(c.communityId)}
+                              disabled={savingEdit}
+                              className="rounded-full bg-heart p-1.5 text-white disabled:opacity-40"
+                            >
+                              <Check size={12} />
+                            </button>
+                            <button
+                              onClick={() => setEditingId(null)}
+                              className="rounded-full bg-black/5 p-1.5 text-foreground/60"
+                            >
+                              <X size={12} />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            {c.communityName}
+                            <button
+                              onClick={() => startEdit(c)}
+                              className="text-foreground/30 transition hover:text-heart"
+                              aria-label={`Rename ${c.communityName}`}
+                            >
+                              <Pencil size={12} />
+                            </button>
+                          </div>
+                        )}
+                      </td>
+                      <td className="px-4 py-2">{c.hearts}</td>
+                      <td className="px-4 py-2">{c.walkers}</td>
+                      <td className="px-4 py-2">${c.pledged.toLocaleString()}</td>
+                      <td className="px-4 py-2">
+                        <span className="rounded-full bg-navy/8 px-2 py-0.5 text-xs font-semibold text-navy">
+                          Active
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

@@ -32,7 +32,7 @@ export default function JoinWizard({ communities }: { communities: Community[] }
 
   function canAdvance() {
     if (stepKey === "Participation") return !!participationType;
-    if (stepKey === "About You") return firstName.trim() && email.trim().includes("@");
+    if (stepKey === "About You") return firstName.trim() && phone.trim().length >= 7;
     if (stepKey === "Community") return communityId && (communityId !== "other" || otherCommunity.trim());
     if (stepKey === "Pledge") return true;
     return true;
@@ -53,10 +53,11 @@ export default function JoinWizard({ communities }: { communities: Community[] }
       await registerParticipant({
         firstName,
         lastName,
-        email,
-        phone: phone || undefined,
+        email: email || undefined,
+        phone,
         participationType: participationType!,
         communityId,
+        customCommunityName: communityId === "other" ? otherCommunity : undefined,
         pledgeAmount: needsPledge ? Number(pledgeAmount) || 0 : 0,
         dedication: dedication.trim() || undefined,
         displayNameMode: displayMode,
@@ -158,21 +159,21 @@ export default function JoinWizard({ communities }: { communities: Community[] }
                     />
                   </Field>
                 </div>
-                <Field label="Email *">
+                <Field label="Mobile Phone * (for WhatsApp updates)">
+                  <input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="input"
+                    placeholder="+1 555 123 4567"
+                  />
+                </Field>
+                <Field label="Email (optional)">
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="input"
                     placeholder="aj@example.com"
-                  />
-                </Field>
-                <Field label="Mobile Phone (optional — for WhatsApp updates)">
-                  <input
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="input"
-                    placeholder="+1 555 123 4567"
                   />
                 </Field>
                 <p className="text-[11px] text-foreground/40">

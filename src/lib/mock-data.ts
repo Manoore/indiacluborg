@@ -84,7 +84,7 @@ export const PARTICIPANTS: Participant[] = names.map(([firstName, lastName, comm
     displayName: firstName,
     displayNameMode: "first",
     email: `${firstName.toLowerCase()}@example.com`,
-    phone: undefined,
+    phone: `+1 555 01${String(i).padStart(2, "0")}`,
     participationType,
     communityId,
     pledgeAmount,

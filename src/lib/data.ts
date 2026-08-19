@@ -46,8 +46,8 @@ function mapParticipant(p: {
   lastName: string;
   displayName: string;
   displayNameMode: string;
-  email: string;
-  phone: string | null;
+  email: string | null;
+  phone: string;
   participationType: string;
   communityId: string;
   pledgeAmount: number;
@@ -63,8 +63,8 @@ function mapParticipant(p: {
     lastName: p.lastName,
     displayName: p.displayName,
     displayNameMode: p.displayNameMode as Participant["displayNameMode"],
-    email: p.email,
-    phone: p.phone ?? undefined,
+    email: p.email ?? undefined,
+    phone: p.phone,
     participationType: p.participationType as Participant["participationType"],
     communityId: p.communityId,
     pledgeAmount: p.pledgeAmount,

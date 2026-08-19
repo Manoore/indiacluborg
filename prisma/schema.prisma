@@ -44,8 +44,8 @@ model Participant {
   lastName         String
   displayName      String
   displayNameMode  DisplayNameMode   @default(first)
-  email            String
-  phone            String?
+  email            String?
+  phone            String
   participationType ParticipationType
   communityId      String
   community        Community         @relation(fields: [communityId], references: [id])
