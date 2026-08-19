@@ -29,6 +29,7 @@ export default function Hero({
           className="mb-4 flex items-center justify-center gap-3 text-4xl sm:text-5xl"
         >
           <span>🇮🇳</span>
+          <span className="text-2xl sm:text-3xl">🤝</span>
           <span>🇺🇸</span>
         </motion.div>
         <motion.h1
