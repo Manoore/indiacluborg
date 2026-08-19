@@ -40,7 +40,7 @@ export default function ConfirmationView({
 
   const shareText = `❤️ I just joined ${teamName} for the Heart Walk on ${new Date(
     campaignDate
-  ).toLocaleDateString("en-US", { month: "long", day: "numeric" })}! I'm walking with the ${communityName} to support heart health. Join me and add your heart!`;
+  ).toLocaleDateString("en-US", { month: "long", day: "numeric", timeZone: "UTC" })}! I'm walking with the ${communityName} to support heart health. Join me and add your heart!`;
   const shareUrl = typeof window !== "undefined" ? window.location.origin : "";
 
   function copyLink() {

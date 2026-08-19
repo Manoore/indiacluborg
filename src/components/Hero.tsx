@@ -17,6 +17,7 @@ export default function Hero({
     month: "long",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 
   return (
