@@ -150,3 +150,22 @@ export async function renameCommunityAction(id: string, newName: string) {
   revalidatePath("/admin/dashboard");
   return { ok: true };
 }
+
+export async function deleteCommunityAction(id: string) {
+  if (!(await isAdminAuthenticated())) throw new Error("Not authorized");
+
+  const prisma = getPrisma();
+  const memberCount = await prisma.participant.count({ where: { communityId: id } });
+  if (memberCount > 0) {
+    return {
+      error: `Can't delete — ${memberCount} participant${memberCount === 1 ? "" : "s"} still belong to this community. Reassign or remove them first.`,
+    };
+  }
+
+  await prisma.community.delete({ where: { id } });
+
+  revalidatePath("/");
+  revalidatePath("/join");
+  revalidatePath("/admin/dashboard");
+  return { ok: true };
+}

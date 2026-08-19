@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Heart, Footprints, DollarSign, Download, LogOut, Users, Trophy, Plus, Pencil, Check, X } from "lucide-react";
-import { adminLogoutAction, createCommunityAction, renameCommunityAction } from "@/app/actions";
+import { Heart, Footprints, DollarSign, Download, LogOut, Users, Trophy, Plus, Pencil, Check, X, Trash2 } from "lucide-react";
+import { adminLogoutAction, createCommunityAction, renameCommunityAction, deleteCommunityAction } from "@/app/actions";
 import { Campaign, Community, CommunityStats, Participant } from "@/lib/types";
 
 type Tab = "overview" | "participants" | "communities";
@@ -32,6 +32,8 @@ export default function AdminDashboardClient({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
   const [savingEdit, setSavingEdit] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   async function handleAddCommunity() {
     if (!newCommunityName.trim()) return;
@@ -58,6 +60,19 @@ export default function AdminDashboardClient({
     await renameCommunityAction(id, editingName);
     setSavingEdit(false);
     setEditingId(null);
+    router.refresh();
+  }
+
+  async function handleDeleteCommunity(id: string, name: string) {
+    if (!window.confirm(`Delete "${name}"? This can't be undone.`)) return;
+    setDeletingId(id);
+    setDeleteError(null);
+    const result = await deleteCommunityAction(id);
+    setDeletingId(null);
+    if (result?.error) {
+      setDeleteError(result.error);
+      return;
+    }
     router.refresh();
   }
 
@@ -192,10 +207,12 @@ export default function AdminDashboardClient({
               </button>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px] text-sm">
+              <table className="w-full min-w-[900px] text-sm">
                 <thead>
                   <tr className="border-b border-black/5 text-left text-xs uppercase text-foreground/40">
                     <th className="px-4 py-2">Name</th>
+                    <th className="px-4 py-2">Email</th>
+                    <th className="px-4 py-2">Phone</th>
                     <th className="px-4 py-2">Community</th>
                     <th className="px-4 py-2">Participation</th>
                     <th className="px-4 py-2">Pledge</th>
@@ -209,6 +226,8 @@ export default function AdminDashboardClient({
                       <td className="px-4 py-2 font-medium text-navy">
                         {p.firstName} {p.lastName}
                       </td>
+                      <td className="px-4 py-2 text-foreground/70">{p.email || "—"}</td>
+                      <td className="px-4 py-2 text-foreground/70">{p.phone}</td>
                       <td className="px-4 py-2 text-foreground/70">{communityMap.get(p.communityId)}</td>
                       <td className="px-4 py-2 capitalize text-foreground/70">{p.participationType}</td>
                       <td className="px-4 py-2 text-foreground/70">{p.pledgeAmount ? `$${p.pledgeAmount}` : "—"}</td>
@@ -254,7 +273,9 @@ export default function AdminDashboardClient({
                 <h3 className="text-sm font-bold text-navy">Communities</h3>
                 <p className="mt-0.5 text-xs text-foreground/50">
                   Click the pencil to rename — useful for correcting a custom name someone typed under &ldquo;Other&rdquo;.
+                  Communities with participants can&rsquo;t be deleted.
                 </p>
+                {deleteError && <p className="mt-2 text-xs font-medium text-heart-deep">{deleteError}</p>}
               </div>
               <table className="w-full text-sm">
                 <thead>
@@ -264,6 +285,7 @@ export default function AdminDashboardClient({
                     <th className="px-4 py-2">Walkers</th>
                     <th className="px-4 py-2">Pledged</th>
                     <th className="px-4 py-2">Status</th>
+                    <th className="px-4 py-2"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -313,6 +335,16 @@ export default function AdminDashboardClient({
                         <span className="rounded-full bg-navy/8 px-2 py-0.5 text-xs font-semibold text-navy">
                           Active
                         </span>
+                      </td>
+                      <td className="px-4 py-2 text-right">
+                        <button
+                          onClick={() => handleDeleteCommunity(c.communityId, c.communityName)}
+                          disabled={deletingId === c.communityId}
+                          className="text-foreground/30 transition hover:text-heart disabled:opacity-40"
+                          aria-label={`Delete ${c.communityName}`}
+                        >
+                          <Trash2 size={14} />
+                        </button>
                       </td>
                     </tr>
                   ))}
