@@ -23,17 +23,23 @@ export default function Hero({
   });
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-24">
-      <Image
-        src="/handshake.png"
-        alt="Handshake between the India and US flags"
-        fill
-        priority
-        className="object-cover"
-      />
-      <div className="hero-gradient bg-gradient-animated absolute inset-0 opacity-50" />
+    <section className="hero-gradient bg-gradient-animated relative overflow-hidden py-16 sm:py-24">
       <TwinklingHearts />
       <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: -10, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          className="mx-auto mb-4 w-40 overflow-hidden rounded-2xl shadow-2xl sm:w-52"
+        >
+          <Image
+            src="/handshake.png"
+            alt="Handshake between the India and US flags, in the shape of a heart"
+            width={1119}
+            height={1260}
+            className="h-auto w-full"
+            priority
+          />
+        </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
