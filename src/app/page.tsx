@@ -24,8 +24,10 @@ export default async function Home() {
       <main className="flex-1">
         <Hero campaign={campaign} totals={totals} />
 
-        <section className="py-16">
-          <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
+        <section className="relative overflow-hidden py-16">
+          <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-saffron/15 blur-3xl" />
+          <div className="pointer-events-none absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-india-green/15 blur-3xl" />
+          <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
             <h2 className="font-display text-2xl font-extrabold text-navy sm:text-3xl">
               One India. <span className="text-gradient">One Heart.</span>
             </h2>
@@ -33,19 +35,22 @@ export default async function Home() {
               Every heart below represents someone who joined Team India. Tap a heart to see their story.
             </p>
           </div>
-          <div className="mt-10 px-4">
+          <div className="relative mt-10 px-4">
             <HeartWall participants={participants} communities={communities} />
           </div>
         </section>
 
-        <section className="bg-white py-16">
-          <div className="px-4">
+        <section className="relative overflow-hidden bg-gradient-to-b from-white via-white to-cream py-16">
+          <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-gold/10 blur-3xl" />
+          <div className="relative px-4">
             <Leaderboard communityStats={communityStats} />
           </div>
         </section>
 
-        <section className="py-16">
-          <div className="mx-auto max-w-2xl rounded-3xl bg-navy px-6 py-10 text-center shadow-xl sm:px-10">
+        <section className="relative overflow-hidden py-16">
+          <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-heart/10 blur-3xl" />
+          <div className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-saffron/10 blur-3xl" />
+          <div className="relative mx-auto max-w-2xl rounded-3xl bg-navy px-6 py-10 text-center shadow-xl sm:px-10">
             <h3 className="font-display text-2xl font-extrabold text-white sm:text-3xl">
               Ready to add your heart?
             </h3>
