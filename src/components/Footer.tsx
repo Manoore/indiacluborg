@@ -16,6 +16,17 @@ export default function Footer() {
         <p className="mt-4 text-[11px] text-white/40">
           Contact information stays private and is only visible to authorized campaign administrators.
         </p>
+        <p className="mt-4 border-t border-white/10 pt-4 text-[11px] text-white/40">
+          Website built by{" "}
+          <a
+            href="https://adopnet.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-white/70 underline underline-offset-2 hover:text-white"
+          >
+            AdopNet
+          </a>
+        </p>
       </div>
     </footer>
   );
