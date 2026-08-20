@@ -5,7 +5,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, Footprints, DollarSign, Download, LogOut, Users, Trophy, Plus, Pencil, Check, X, Trash2, Home } from "lucide-react";
-import { adminLogoutAction, createCommunityAction, renameCommunityAction, deleteCommunityAction } from "@/app/actions";
+import {
+  adminLogoutAction,
+  createCommunityAction,
+  renameCommunityAction,
+  deleteCommunityAction,
+  deleteParticipantAction,
+} from "@/app/actions";
+import ParticipantEditModal from "./ParticipantEditModal";
 import { Campaign, Community, CommunityStats, Participant } from "@/lib/types";
 
 type Tab = "overview" | "participants" | "communities";
@@ -35,6 +42,8 @@ export default function AdminDashboardClient({
   const [savingEdit, setSavingEdit] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [editingParticipant, setEditingParticipant] = useState<Participant | null>(null);
+  const [deletingParticipantId, setDeletingParticipantId] = useState<string | null>(null);
 
   async function handleAddCommunity() {
     if (!newCommunityName.trim()) return;
@@ -74,6 +83,14 @@ export default function AdminDashboardClient({
       setDeleteError(result.error);
       return;
     }
+    router.refresh();
+  }
+
+  async function handleDeleteParticipant(id: string, name: string) {
+    if (!window.confirm(`Remove ${name} from the Heart Wall? This can't be undone.`)) return;
+    setDeletingParticipantId(id);
+    await deleteParticipantAction(id);
+    setDeletingParticipantId(null);
     router.refresh();
   }
 
@@ -216,7 +233,7 @@ export default function AdminDashboardClient({
               </button>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[900px] text-sm">
+              <table className="w-full min-w-[960px] text-sm">
                 <thead>
                   <tr className="border-b border-black/5 text-left text-xs uppercase text-foreground/40">
                     <th className="px-4 py-2">Name</th>
@@ -227,6 +244,7 @@ export default function AdminDashboardClient({
                     <th className="px-4 py-2">Pledge</th>
                     <th className="px-4 py-2">Date</th>
                     <th className="px-4 py-2">Status</th>
+                    <th className="px-4 py-2"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -245,6 +263,25 @@ export default function AdminDashboardClient({
                         <span className="rounded-full bg-navy/8 px-2 py-0.5 text-xs font-semibold text-navy">
                           Active
                         </span>
+                      </td>
+                      <td className="px-4 py-2">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => setEditingParticipant(p)}
+                            className="text-foreground/30 transition hover:text-heart"
+                            aria-label={`Edit ${p.firstName} ${p.lastName}`}
+                          >
+                            <Pencil size={14} />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteParticipant(p.id, `${p.firstName} ${p.lastName}`)}
+                            disabled={deletingParticipantId === p.id}
+                            className="text-foreground/30 transition hover:text-heart disabled:opacity-40"
+                            aria-label={`Delete ${p.firstName} ${p.lastName}`}
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -363,6 +400,18 @@ export default function AdminDashboardClient({
           </div>
         )}
       </div>
+
+      {editingParticipant && (
+        <ParticipantEditModal
+          participant={editingParticipant}
+          communities={communities}
+          onClose={() => setEditingParticipant(null)}
+          onSaved={() => {
+            setEditingParticipant(null);
+            router.refresh();
+          }}
+        />
+      )}
     </main>
   );
 }

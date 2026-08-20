@@ -3,6 +3,7 @@ import { Heart } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
+import EventDetailsCard from "@/components/EventDetailsCard";
 import HeartWall from "@/components/HeartWall";
 import Leaderboard from "@/components/Leaderboard";
 import { getCampaign, getCommunities, getCommunityStats, getPublicParticipants, getTotals } from "@/lib/data";
@@ -23,8 +24,9 @@ export default async function Home() {
       <Header />
       <main className="flex-1">
         <Hero campaign={campaign} totals={totals} />
+        <EventDetailsCard />
 
-        <section className="relative overflow-hidden py-16">
+        <section className="relative overflow-hidden pb-16 pt-20">
           <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-heart/8 blur-3xl" />
           <div className="pointer-events-none absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-navy/6 blur-3xl" />
           <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6">

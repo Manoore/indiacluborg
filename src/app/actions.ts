@@ -6,7 +6,7 @@ import { getPrisma } from "@/lib/db";
 import { getCommunity } from "@/lib/data";
 import { sendWhatsAppConfirmation } from "@/lib/whatsapp";
 import { createAdminSession, clearAdminSession, isAdminAuthenticated, verifyAdminCredentials } from "@/lib/admin-auth";
-import { DisplayNameMode, ParticipationType } from "@/lib/types";
+import { DisplayNameMode, ParticipationType, PaymentStatus } from "@/lib/types";
 
 export interface RegisterInput {
   firstName: string;
@@ -166,6 +166,71 @@ export async function deleteCommunityAction(id: string) {
 
   revalidatePath("/");
   revalidatePath("/join");
+  revalidatePath("/admin/dashboard");
+  return { ok: true };
+}
+
+export interface UpdateParticipantInput {
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone: string;
+  communityId: string;
+  participationType: ParticipationType;
+  pledgeAmount: number;
+  paymentStatus: PaymentStatus;
+  dedication?: string;
+  heartVisible: boolean;
+}
+
+export async function updateParticipantAction(id: string, input: UpdateParticipantInput) {
+  if (!(await isAdminAuthenticated())) throw new Error("Not authorized");
+  if (!input.firstName.trim() || !input.phone.trim() || !input.communityId) {
+    return { error: "First name, phone, and community are required" };
+  }
+
+  const prisma = getPrisma();
+  const existing = await prisma.participant.findUnique({ where: { id } });
+  if (!existing) return { error: "Participant not found" };
+
+  const displayName =
+    existing.displayNameMode === "anonymous"
+      ? "A friend"
+      : existing.displayNameMode === "full"
+        ? `${input.firstName} ${input.lastName}`.trim()
+        : input.firstName;
+
+  await prisma.participant.update({
+    where: { id },
+    data: {
+      firstName: input.firstName.trim(),
+      lastName: input.lastName.trim(),
+      displayName,
+      email: input.email?.trim() || null,
+      phone: input.phone.trim(),
+      communityId: input.communityId,
+      participationType: input.participationType,
+      pledgeAmount: input.pledgeAmount || 0,
+      paymentStatus: input.paymentStatus,
+      dedication: input.dedication?.trim() || null,
+      heartVisible: input.heartVisible,
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath(`/community/${input.communityId}`);
+  revalidatePath("/admin/dashboard");
+  return { ok: true };
+}
+
+export async function deleteParticipantAction(id: string) {
+  if (!(await isAdminAuthenticated())) throw new Error("Not authorized");
+
+  const prisma = getPrisma();
+  const participant = await prisma.participant.delete({ where: { id } });
+
+  revalidatePath("/");
+  revalidatePath(`/community/${participant.communityId}`);
   revalidatePath("/admin/dashboard");
   return { ok: true };
 }
