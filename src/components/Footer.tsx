@@ -17,7 +17,7 @@ export default function Footer() {
           Contact information stays private and is only visible to authorized campaign administrators.
         </p>
         <p className="mt-4 border-t border-white/10 pt-4 text-[11px] text-white/40">
-          Website built by{" "}
+          Designed with ❤️ by{" "}
           <a
             href="https://adopnet.com"
             target="_blank"
