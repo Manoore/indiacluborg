@@ -147,7 +147,7 @@ export default function JoinWizard({ communities }: { communities: Community[] }
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       className="input"
-                      placeholder="AJ"
+                      placeholder="First name"
                     />
                   </Field>
                   <Field label="Last Name">
@@ -155,7 +155,7 @@ export default function JoinWizard({ communities }: { communities: Community[] }
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       className="input"
-                      placeholder="Jindal"
+                      placeholder="Last name"
                     />
                   </Field>
                 </div>
@@ -173,7 +173,7 @@ export default function JoinWizard({ communities }: { communities: Community[] }
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="input"
-                    placeholder="aj@example.com"
+                    placeholder="you@example.com"
                   />
                 </Field>
                 <p className="text-[11px] text-foreground/40">
